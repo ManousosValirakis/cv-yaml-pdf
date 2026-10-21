@@ -1,19 +1,47 @@
 personal:
   name: "Μανούσος Βαλυράκης"
-  title: "Εκπαιδευτικός"
+  title: "Multimedia Specialist"
   email: ""
   phone: ""
-  location: "Ελλάδα"
+  location: "Ηράκλειο, Κρήτη, Ελλάδα"
   website: "https://manousosvalirakis.github.io/CV/"
+  linkedin: "https://www.linkedin.com/in/manousos-valirakis-8aba53117/"
 
 profile: >
-  Εκπαιδευτικός με ενδιαφέρον για την πληροφορική,
-  τις ψηφιακές τεχνολογίες και την εκπαίδευση.
+  Επαγγελματίας στον χώρο των πολυμέσων και της πληροφορικής,
+  με εμπειρία στην τεχνολογία, τις πωλήσεις και την εκπαίδευση.
 
-education: []
+education:
+  - degree: "Applied Informatics and Multimedia"
+    institution: "TEI of Crete"
+  - degree: "Master's Degree - Graphic Arts / Multimedia"
+    institution: "Hellenic Open University"
+  - degree: "Annual Pedagogical Training Program (EPPAIK)"
+    institution: "School of Pedagogical and Technological Education"
 
-experience: []
+experience:
+  - position: "Information Technology Specialist"
+    organization: "Organization for the Development of Crete S.A. (O.A.K. SA)"
+    period: "Jul 2007 - Feb 2010"
+  - position: "Self-employed"
+    organization: "Systems and Software Consulting Services"
+    period: "May 2011 - Nov 2013"
+  - position: "Commercial and Sales Executive"
+    organization: "SKY Express"
+    period: "Dec 2013 - May 2021"
+  - position: "Multimedia Specialist"
+    organization: "Elizabeth Estate Agency"
+    period: "Jun 2022 - Present"
+  - position: "Computer Science Teacher"
+    organization: "DYPA / Greek Public Employment Service"
+    period: "Oct 2025 - Jul 2026"
 
-skills: []
-
-languages: []
+certifications:
+  - name: "Adult Instructor Training"
+    institution: "Centre for Research & Technology Hellas (CERTH)"
+  - name: "Quality Management & Assurance Systems"
+    institution: "Hellenic Management Association"
+  - name: "Digital Broadcasting – Real Time Communication and its Quality in IP Networks"
+    institution: "Technological Educational Institute of Crete"
+  - name: "Special Treatment and Education (Ειδική Αγωγή και Εκπαίδευση)"
+    institution: "University of the Aegean"
