@@ -3,7 +3,7 @@ layout: default
 title: Βιογραφικό
 ---
 
-# Μανούσος Βαλυράκης TEST
+# Μανούσος Βαλυράκης
 
 **Multimedia Specialist**
 
