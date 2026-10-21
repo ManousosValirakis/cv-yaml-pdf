@@ -1,4 +1,4 @@
-name: Build and deploy CV with Jekyll
+name: Build Jekyll site and PDF
 
 on:
   push:
@@ -12,15 +12,29 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build site with Jekyll
+      - name: Build Jekyll site
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+
+      - name: Generate PDF
+        run: python generate_pdf.py
 
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
@@ -30,12 +44,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+
     permissions:
       pages: write
       id-token: write
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Publish website
         id: deployment
