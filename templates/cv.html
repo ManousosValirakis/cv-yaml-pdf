@@ -6,36 +6,106 @@
     <title>Βιογραφικό {{ cv.personal.name }}</title>
 
     <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+        color: #263445;
+        line-height: 1.7;
+        background: #edf2f7;
+    }
+
+    main {
+        background: white;
+        padding: 45px;
+        border-radius: 14px;
+        box-shadow: 0 5px 24px rgba(0, 0, 0, 0.07);
+    }
+
+    header {
+        border-bottom: 3px solid #24618b;
+        padding-bottom: 22px;
+        margin-bottom: 28px;
+    }
+
+    h1 {
+        color: #174a70;
+        font-size: 34px;
+        margin-bottom: 5px;
+    }
+
+    header h2 {
+        border: none;
+        margin-top: 0;
+        color: #527087;
+        font-size: 20px;
+    }
+
+    section {
+        margin-top: 28px;
+        break-inside: avoid;
+    }
+
+    section h2 {
+        color: #174a70;
+        font-size: 20px;
+        border-bottom: 1px solid #cbd8e2;
+        padding-bottom: 8px;
+    }
+
+    p, li {
+        font-size: 15px;
+    }
+
+    a {
+        color: #1769aa;
+        text-decoration: none;
+        overflow-wrap: anywhere;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
         body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 20px;
-            color: #263238;
-            line-height: 1.6;
-            background: #f5f7fa;
+            margin: 10px auto;
+            padding: 10px;
         }
 
         main {
+            padding: 22px;
+        }
+
+        h1 {
+            font-size: 27px;
+        }
+    }
+
+    @media print {
+        body {
+            max-width: none;
+            margin: 0;
+            padding: 0;
             background: white;
-            padding: 35px;
-            border-radius: 12px;
         }
 
-        h1 { color: #174a70; }
-        h2 {
+        main {
+            padding: 15px;
+            box-shadow: none;
+            border-radius: 0;
+        }
+
+        a {
             color: #174a70;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
         }
-
-        a { color: #1769aa; }
-
-        @media print {
-            body { margin: 0; background: white; }
-            main { padding: 0; }
-        }
-    </style>
+    }
+</style>
 </head>
 
 <body>
