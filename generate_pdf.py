@@ -1,4 +1,6 @@
 from pathlib import Path
+from shutil import copy2
+from tempfile import TemporaryDirectory
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parent
@@ -9,32 +11,36 @@ PDF_FILE = SITE / "cv.pdf"
 if not HTML_FILE.exists():
     raise FileNotFoundError("Δεν βρέθηκε η ιστοσελίδα Jekyll.")
 
-with sync_playwright() as playwright:
-    browser = playwright.chromium.launch()
-    page = browser.new_page()
+with TemporaryDirectory() as temp_dir:
+    temp_pdf = Path(temp_dir) / "cv.pdf"
 
-    page.goto(HTML_FILE.as_uri(), wait_until="networkidle")
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch()
+        page = browser.new_page()
 
-    # Απόκρυψη των στοιχείων πλοήγησης και του κουμπιού
-    # λήψης από το ίδιο το PDF.
-    page.add_style_tag(content="""
-        .webring,
-        a[download] {
-            display: none !important;
-        }
+        page.goto(HTML_FILE.as_uri(), wait_until="networkidle")
 
-        body {
-            background: white !important;
-        }
-    """)
+        page.add_style_tag(content="""
+            .webring,
+            a[download] {
+                display: none !important;
+            }
 
-    page.pdf(
-        path=str(PDF_FILE),
-        format="A4",
-        print_background=True,
-        prefer_css_page_size=True
-    )
+            body {
+                background: white !important;
+            }
+        """)
 
-    browser.close()
+        page.pdf(
+            path=str(temp_pdf),
+            format="A4",
+            print_background=True,
+            prefer_css_page_size=True
+        )
+
+        browser.close()
+
+    SITE.mkdir(parents=True, exist_ok=True)
+    copy2(temp_pdf, PDF_FILE)
 
 print("Το PDF δημιουργήθηκε:", PDF_FILE)
