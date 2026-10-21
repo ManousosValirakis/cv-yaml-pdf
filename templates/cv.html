@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Βιογραφικό {{ cv.personal.name }}</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #263238;
+            line-height: 1.6;
+            background: #f5f7fa;
+        }
+
+        main {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+        }
+
+        h1 { color: #174a70; }
+        h2 {
+            color: #174a70;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        a { color: #1769aa; }
+
+        @media print {
+            body { margin: 0; background: white; }
+            main { padding: 0; }
+        }
+    </style>
+</head>
+
+<body>
+<main>
+    <header>
+        <h1>{{ cv.personal.name }}</h1>
+        <h2>{{ cv.personal.title }}</h2>
+
+        <p>
+            {% if cv.personal.location %}
+                {{ cv.personal.location }}
+            {% endif %}
+
+            {% if cv.personal.email %}
+                | {{ cv.personal.email }}
+            {% endif %}
+
+            {% if cv.personal.phone %}
+                | {{ cv.personal.phone }}
+            {% endif %}
+        </p>
+
+        {% if cv.personal.website %}
+        <p>
+            <a href="{{ cv.personal.website }}">Προσωπική ιστοσελίδα</a>
+        </p>
+        {% endif %}
+    </header>
+
+    <section>
+        <h2>Προφίλ</h2>
+        <p>{{ cv.profile }}</p>
+    </section>
+
+    <section>
+        <h2>Εκπαίδευση</h2>
+        {% for item in cv.education %}
+        <p>
+            <strong>{{ item.degree }}</strong>
+            {% if item.institution %} — {{ item.institution }}{% endif %}
+            {% if item.period %} ({{ item.period }}){% endif %}
+        </p>
+        {% endfor %}
+    </section>
+
+    <section>
+        <h2>Επαγγελματική εμπειρία</h2>
+        {% for item in cv.experience %}
+        <p>
+            <strong>{{ item.position }}</strong>
+            {% if item.organization %} — {{ item.organization }}{% endif %}
+            {% if item.period %} ({{ item.period }}){% endif %}
+            {% if item.description %}<br>{{ item.description }}{% endif %}
+        </p>
+        {% endfor %}
+    </section>
+
+    <section>
+        <h2>Δεξιότητες</h2>
+        <ul>
+        {% for skill in cv.skills %}
+            <li>{{ skill }}</li>
+        {% endfor %}
+        </ul>
+    </section>
+
+    <section>
+        <h2>Γλώσσες</h2>
+        <ul>
+        {% for language in cv.languages %}
+            <li>{{ language }}</li>
+        {% endfor %}
+        </ul>
+    </section>
+</main>
+</body>
+</html>
