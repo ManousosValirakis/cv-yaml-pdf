@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }} | {{ site.title }}</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #263445;
+            line-height: 1.7;
+            background: #edf2f7;
+        }
+
+        main {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+        }
+
+        h1, h2 { color: #174a70; }
+
+        h2 {
+            border-bottom: 1px solid #cbd8e2;
+            padding-bottom: 6px;
+            margin-top: 30px;
+        }
+
+        a { color: #1769aa; }
+
+        .webring {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 2px solid #24618b;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            body { margin: 10px auto; padding: 10px; }
+            main { padding: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        {{ content }}
+
+        <nav class="webring" aria-label="Πλοήγηση">
+            <a href="https://epidrome.github.io/teaching/team/">
+                Κεντρική σελίδα ομάδας
+            </a>
+        </nav>
+    </main>
+</body>
+</html>
