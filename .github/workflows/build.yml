@@ -33,6 +33,9 @@ jobs:
           pip install playwright
           playwright install --with-deps chromium
 
+      - name: Fix site directory permissions
+        run: chmod -R u+w _site
+
       - name: Generate PDF
         run: python generate_pdf.py
 
