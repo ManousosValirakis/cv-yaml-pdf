@@ -26,23 +26,26 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.12"
 
       - name: Install Playwright
         run: |
           pip install playwright
           playwright install --with-deps chromium
 
-      - name: Fix site directory permissions
-        run: chmod -R u+w _site
-
       - name: Generate PDF
         run: python generate_pdf.py
+
+      - name: Copy PDF to published site
+        run: |
+          mkdir -p public
+          cp -a _site/. public/
+          cp cv-generated.pdf public/cv.pdf
 
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./_site
+          path: ./public
 
   deploy:
     runs-on: ubuntu-latest
