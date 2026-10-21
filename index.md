@@ -3,7 +3,7 @@ layout: default
 title: Βιογραφικό
 ---
 
-# {{ "{{ site.title }}" }}
+# Μανούσος Βαλυράκης
 
 **Multimedia Specialist**
 
