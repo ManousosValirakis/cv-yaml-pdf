@@ -10,7 +10,17 @@ title: Βιογραφικό
 Ηράκλειο, Κρήτη, Ελλάδα
 
 [Προσωπική ιστοσελίδα](https://manousosvalirakis.github.io/CV/) · [LinkedIn](https://www.linkedin.com/in/manousos-valirakis-8aba53117/)
-[📄 Κατέβασε το βιογραφικό σε PDF](cv.pdf)
+
+<a href="cv.pdf" download="Manousos-Valirakis-CV.pdf"
+   style="display:inline-block;
+          background-color:#2457a7;
+          color:white;
+          padding:12px 22px;
+          border-radius:8px;
+          text-decoration:none;
+          font-weight:bold;">
+  📄 Κατέβασε το βιογραφικό σε PDF
+</a>
 
 ## Προφίλ
 
