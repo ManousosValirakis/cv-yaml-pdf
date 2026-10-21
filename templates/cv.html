@@ -92,7 +92,17 @@
         </p>
         {% endfor %}
     </section>
-
+ <section>
+        <h2>Πιστοποιήσεις</h2>
+        {% for item in cv.certifications %}
+        <p>
+            <strong>{{ item.name }}</strong>
+            {% if item.institution %}
+                — {{ item.institution }}
+            {% endif %}
+        </p>
+        {% endfor %}
+    </section>
     <section>
         <h2>Δεξιότητες</h2>
         <ul>
