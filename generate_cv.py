@@ -13,11 +13,10 @@ def add_section(lines, title, content):
     if not content:
         return
 
-    lines.append(f"## {title}")
-    lines.append("")
+    lines.extend([f"## {title}", ""])
 
     if isinstance(content, str):
-        lines.append(content.strip())
+        lines.extend([content.strip(), ""])
     elif isinstance(content, dict):
         for key, value in content.items():
             if value:
@@ -32,21 +31,34 @@ def add_section(lines, title, content):
                 lines.append("")
             else:
                 lines.append(f"- {item}")
-
-    lines.append("")
+        lines.append("")
 
 
 lines = []
+personal = cv.get("personal", {}) or {}
+name = personal.get("name", {}) or {}
 
-personal = cv.get("personal", {})
-if isinstance(personal, dict):
-    name = personal.get("name", "")
-    if name:
-        lines.extend([f"# {name}", ""])
-    for key, value in personal.items():
-        if key != "name" and value:
-            lines.append(f"**{key}:** {value}")
-    lines.append("")
+if isinstance(name, dict):
+    full_name = name.get("full", "") or name.get("display", "")
+    if not full_name:
+        full_name = " ".join(
+            str(value) for value in name.values() if value
+        )
+else:
+    full_name = str(name) if name else ""
+
+if full_name:
+    lines.extend([f"# {full_name}", ""])
+
+if personal.get("title"):
+    lines.extend([f"**{personal['title']}**", ""])
+
+for field in ("email", "phone", "location", "website", "linkedin"):
+    value = personal.get(field)
+    if value:
+        lines.append(f"**{field.capitalize()}:** {value}")
+
+lines.append("")
 
 add_section(lines, "Προφίλ", cv.get("profile"))
 add_section(lines, "Εκπαίδευση", cv.get("education"))
@@ -54,5 +66,4 @@ add_section(lines, "Επαγγελματική εμπειρία", cv.get("experi
 add_section(lines, "Πιστοποιήσεις", cv.get("certifications"))
 
 OUTPUT_FILE.write_text("\n".join(lines), encoding="utf-8")
-
 print(f"Δημιουργήθηκε το αρχείο: {OUTPUT_FILE}")
