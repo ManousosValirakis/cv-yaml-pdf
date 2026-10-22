@@ -28,15 +28,25 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install Playwright
+      - name: Install Pandoc, LaTeX and Python dependencies
         run: |
-          pip install playwright
-          playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-xetex texlive-lang-greek fonts-dejavu-core
+          pip install PyYAML
 
-      - name: Generate PDF
-        run: python generate_pdf.py
+      - name: Generate Markdown from YAML
+        run: python generate_cv.py
 
-      - name: Copy PDF to published site
+      - name: Generate A4 PDF with Pandoc and LaTeX
+        run: |
+          pandoc cv-generated.md \
+            --pdf-engine=xelatex \
+            -V lang=el \
+            -V mainfont="DejaVu Sans" \
+            -V geometry:margin=1.5cm \
+            -o cv-generated.pdf
+
+      - name: Prepare published website
         run: |
           mkdir -p public
           cp -a _site/. public/
