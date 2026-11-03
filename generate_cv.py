@@ -1,107 +1,116 @@
+
 from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parent
-CV_FILE = ROOT / "cv.yml"
-OUTPUT_FILE = ROOT / "cv-generated.md"
 
-with CV_FILE.open("r", encoding="utf-8") as file:
-    cv = yaml.safe_load(file) or {}
+with (ROOT / "cv.yml").open(encoding="utf-8") as f:
+    cv = yaml.safe_load(f) or {}
 
-
-def add_items(lines, items, fields):
-    if not isinstance(items, list):
-        return
-
-    for item in items:
-        if not isinstance(item, dict):
-            continue
-
-        for field, label in fields:
-            value = item.get(field)
-            if value:
-                lines.append(f"**{label}:** {value}")
-
-        lines.append("")
-
-
-lines = []
 personal = cv.get("personal") or {}
-name = personal.get("name") or {}
+name = personal.get("name") or ""
 
 if isinstance(name, dict):
-    full_name = " ".join(str(v) for v in name.values() if v)
-else:
-    full_name = str(name)
+    name = " ".join(str(v) for v in name.values() if v)
 
-if full_name:
-    lines.extend([f"# {full_name}", ""])
+lines = []
+
+if name:
+    lines.extend([f"# {name}", ""])
 
 if personal.get("title"):
     lines.extend([f"**{personal['title']}**", ""])
 
-for field in ("email", "phone", "location", "website", "linkedin"):
-    value = personal.get(field)
-    if value:
-        lines.append(f"**{field.capitalize()}:** {value}")
+if personal.get("location"):
+    lines.extend([str(personal["location"]), ""])
 
-lines.append("")
+if personal.get("website"):
+    url = personal["website"]
+    lines.extend([f"[Προσωπική ιστοσελίδα]({url})", ""])
 
+for field, label in (
+    ("email", "Email"),
+    ("phone", "Τηλέφωνο"),
+    ("linkedin", "LinkedIn"),
+):
+    if personal.get(field):
+        lines.extend([f"**{label}:** {personal[field]}", ""])
 
-def add_section(lines, title, content):
-    if not content:
-        return
-    lines.extend([f"## {title}", ""])
-    if isinstance(content, str):
-        lines.extend([content.strip(), ""])
-    elif isinstance(content, list):
-        for item in content:
-            if isinstance(item, dict):
-                for key, value in item.items():
-                    if value:
-                        lines.append(f"**{key}:** {value}")
-                lines.append("")
-            else:
-                lines.extend([f"- {item}", ""])
-    elif isinstance(content, dict):
-        for key, value in content.items():
-            if value:
-                lines.extend([f"**{key}:** {value}", ""])
-
-
-add_section(lines, "Προφίλ", cv.get("profile"))
+profile = cv.get("profile")
+if profile:
+    lines.extend(["## Προφίλ", "", str(profile).strip(), ""])
 
 education = cv.get("education") or []
 if education:
     lines.extend(["## Εκπαίδευση", ""])
     for item in education:
-        if item.get("degree"):
-            lines.append(f"**{item['degree']}**")
-        if item.get("institution"):
-            lines.append(item["institution"])
-        lines.append("")
+        lines.append(
+            f"- **{item.get('degree', '')}** — "
+            f"{item.get('institution', '')}"
+        )
+    lines.append("")
 
 experience = cv.get("experience") or []
 if experience:
     lines.extend(["## Επαγγελματική εμπειρία", ""])
     for item in experience:
-        if item.get("position"):
-            lines.append(f"**{item['position']}**")
-        if item.get("organization"):
-            lines.append(item["organization"])
-        if item.get("period"):
-            lines.append(f"*{item['period']}*")
-        lines.append("")
+        lines.append(
+            f"- **{item.get('position', '')}** — "
+            f"{item.get('organization', '')} "
+            f"({item.get('period', '')})"
+        )
+    lines.append("")
 
 certifications = cv.get("certifications") or []
 if certifications:
     lines.extend(["## Πιστοποιήσεις", ""])
     for item in certifications:
-        if item.get("name"):
-            lines.append(f"**{item['name']}**")
-        if item.get("institution"):
-            lines.append(item["institution"])
-        lines.append("")
+        lines.append(
+            f"- **{item.get('name', '')}** — "
+            f"{item.get('institution', '')}"
+        )
+    lines.append("")
 
-OUTPUT_FILE.write_text("\n".join(lines), encoding="utf-8")
-print(f"Δημιουργήθηκε το αρχείο: {OUTPUT_FILE}")
+content = "\n".join(lines)
+
+# Markdown used by Pandoc for PDF generation
+(ROOT / "cv-generated.md").write_text(
+    content, encoding="utf-8"
+)
+
+# Jekyll page with the existing PDF download button
+header = """---
+layout: default
+title: Βιογραφικό
+---
+
+"""
+
+button = """
+<a href="cv.pdf" download="Manousos-Valirakis-CV.pdf"
+   style="display:inline-block;
+          background-color:#2457a7;
+          color:white;
+          padding:12px 22px;
+          border-radius:8px;
+          text-decoration:none;
+          font-weight:bold;">
+  📄 Κατέβασε το βιογραφικό σε PDF
+</a>
+
+"""
+
+# Place the download button before the profile section
+if "## Προφίλ" in content:
+    content_web = content.replace(
+        "## Προφίλ", button + "## Προφίλ", 1
+    )
+else:
+    content_web = content + "\n" + button
+
+(ROOT / "index.md").write_text(
+    header + content_web, encoding="utf-8"
+)
+
+print("Created cv-generated.md and index.md from cv.yml")
+
