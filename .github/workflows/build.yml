@@ -45,6 +45,7 @@ jobs:
             --pdf-engine=xelatex \
             -V lang=el \
             -V mainfont="DejaVu Sans" \
+            -V papersize:a4 \
             -V geometry:margin=1.5cm \
             -o cv-generated.pdf
 
